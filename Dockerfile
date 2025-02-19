@@ -23,6 +23,9 @@ RUN mkdir src && echo "fn main() {}" > src/main.rs
 # 预先构建依赖，缓存编译结果
 RUN cargo build --release --verbose || true
 
+# 复制前端编译产物到后端的 dist 目录
+COPY --from=frontend-builder /app/frontend/dist /app/dist
+
 # 复制后端代码并编译
 COPY ./ ./
 RUN cargo build --release --verbose
@@ -33,9 +36,6 @@ WORKDIR /app
 
 # 安装必要依赖
 RUN apt update && apt install -y ca-certificates && rm -rf /var/lib/apt/lists/*
-
-# 复制前端编译产物到后端的 dist 目录
-COPY --from=frontend-builder /app/frontend/dist /app/dist
 
 # 复制后端可执行文件
 COPY --from=backend-builder /app/target/release/jiascheduler-console /app/
