@@ -6,7 +6,7 @@ on:
 
 env:
   DOCKER_USERNAME: iwannay
-  IMAGE_NAME: ${{ env.DOCKER_USERNAME }}/jiascheduler
+  IMAGE_NAME: iwannay/jiascheduler
 
 jobs:
   docker:
